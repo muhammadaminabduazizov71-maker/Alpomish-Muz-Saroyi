@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="uz" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpomish Muz Saroyi — Yangi Yil Qishki Ertak</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        display: ['Cinzel', 'serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    },
+                    colors: {
+                        gold: {
+                            400: '#FBBF24',
+                            500: '#D4AF37',
+                            600: '#B48E22',
+                        },
+                        ice: {
+                            900: '#070E1A',
+                            800: '#0F1C32',
+                            700: '#162947',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Alohida CSS fayli -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="font-sans bg-slate-50 text-slate-800 dark:bg-ice-900 dark:text-slate-100 transition-colors duration-300 relative overflow-x-hidden">
+
+    <!-- Qor yog'ish animatsiyasi -->
+    <canvas id="snow-canvas"></canvas>
+
+    <!-- Yangi yil miltillovchi chiroqlari -->
+    <div class="garland-container bg-slate-100/85 dark:bg-ice-800/85 backdrop-blur-md sticky top-0 z-50">
+        <span class="light-bulb"></span><span class="light-bulb"></span><span class="light-bulb"></span>
+        <span class="light-bulb"></span><span class="light-bulb"></span><span class="light-bulb"></span>
+        <span class="light-bulb"></span><span class="light-bulb"></span><span class="light-bulb"></span>
+        <span class="light-bulb"></span><span class="light-bulb"></span><span class="light-bulb"></span>
+        <span class="light-bulb"></span><span class="light-bulb"></span><span class="light-bulb"></span>
+        <span class="light-bulb"></span><span class="light-bulb"></span><span class="light-bulb"></span>
+    </div>
+
+    <!-- Navigatsiya (Navbar) -->
+    <header class="sticky top-[27px] z-40 bg-white/85 dark:bg-ice-900/85 backdrop-blur-lg border-b border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-sky-500/20 float-slow">
+                    ❄️
+                </div>
+                <div>
+                    <h1 class="font-display font-bold text-lg sm:text-xl tracking-wider text-slate-900 dark:text-white group-hover:text-sky-500 transition">ALPOMISH</h1>
+                    <p class="text-[11px] uppercase tracking-widest text-gold-600 dark:text-gold-400 font-semibold">Muz Saroyi • Toshkent</p>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#about" class="nav-link hover:text-sky-600 dark:hover:text-gold-400 transition">Saroy Haqida</a>
+                <a href="#schedule" class="nav-link hover:text-sky-600 dark:hover:text-gold-400 transition">Jadval</a>
+                <a href="#tickets" class="nav-link hover:text-sky-600 dark:hover:text-gold-400 transition">Chiptalar</a>
+                <a href="#rules" class="nav-link hover:text-sky-600 dark:hover:text-gold-400 transition">Qoidalar Hujjati</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <button onclick="toggleFoodModal()" class="shimmer-btn px-4 py-2.5 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-600 hover:to-yellow-600 text-slate-950 font-bold text-xs sm:text-sm shadow-md shadow-amber-500/20 flex items-center gap-2 transition transform hover:scale-105 cursor-pointer">
+                    <span>☕</span>
+                    <span>Yeguliklar Menyusi</span>
+                </button>
+
+                <button id="theme-toggle" onclick="toggleTheme()" aria-label="Rejimni o'zgartirish" class="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-100 dark:bg-ice-800 hover:border-gold-500 transition cursor-pointer">
+                    <span id="theme-icon" class="text-lg inline-block transition-transform duration-300">☀️</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 1. HERO BO'LIMI -->
+    <section class="relative pt-14 pb-24 lg:pt-24 lg:pb-32 overflow-hidden">
+        <div class="absolute inset-0 pointer-events-none">
+            <div class="glow-orb -top-24 -right-24 w-96 h-96 bg-sky-500/15 rounded-full blur-3xl"></div>
+            <div class="glow-orb glow-delay bottom-0 -left-24 w-96 h-96 bg-gold-500/15 rounded-full blur-3xl"></div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-600 dark:text-gold-400 text-xs sm:text-sm font-semibold mb-6">
+                <span class="pulse-star">🎄</span>
+                <span>Yangi Yil Bayram Mavsumi Ochiq! • Toshkent</span>
+            </div>
+
+            <h1 class="reveal font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight mb-6">
+                Muz Ustidagi Haqiqiy <br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-sky-500 via-indigo-400 to-gold-400">
+                    Qishki Ertak
+                </span>
+            </h1>
+
+            <p class="reveal max-w-2xl mx-auto text-base sm:text-lg text-slate-600 dark:text-slate-300 mb-10 leading-relaxed">
+                O'zbekistonning eng zamonaviy muz majmuasi — <strong>Alpomish Muz Saroyida</strong> oilangiz va do'stlaringiz bilan unutilmas Yangi Yil taassurotlarini yarating. Olimpiya darajasidagi muz maydoni sizni kutmoqda!
+            </p>
+
+            <div class="reveal flex flex-wrap items-center justify-center gap-4">
+                <a href="#tickets" class="shimmer-btn px-8 py-4 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-base shadow-xl shadow-sky-600/25 transition transform hover:-translate-y-0.5">
+                    🎟️ Onlayn Chipta Olish
+                </a>
+                <button onclick="toggleFoodModal()" class="px-8 py-4 rounded-2xl border-2 border-gold-500/60 hover:bg-gold-500/10 text-slate-900 dark:text-gold-400 font-bold text-base transition transform hover:-translate-y-0.5 cursor-pointer">
+                    🍕 Yeguliklar va Narxlarni Ko'rish
+                </button>
+            </div>
+
+            <div class="reveal grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-16">
+                <div class="stat-card p-5 rounded-2xl bg-white dark:bg-ice-800/70 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="text-2xl sm:text-3xl font-display font-bold text-sky-600 dark:text-sky-400">1 800 m²</div>
+                    <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Olimpiya Muz Maydoni</div>
+                </div>
+                <div class="stat-card p-5 rounded-2xl bg-white dark:bg-ice-800/70 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="text-2xl sm:text-3xl font-display font-bold text-gold-600 dark:text-gold-400">-5°C</div>
+                    <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Ideal Muz Harorati</div>
+                </div>
+                <div class="stat-card p-5 rounded-2xl bg-white dark:bg-ice-800/70 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="text-2xl sm:text-3xl font-display font-bold text-emerald-600 dark:text-emerald-400">500+</div>
+                    <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Yangi Konkilar (26–46)</div>
+                </div>
+                <div class="stat-card p-5 rounded-2xl bg-white dark:bg-ice-800/70 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="text-2xl sm:text-3xl font-display font-bold text-rose-500">10:00–23:00</div>
+                    <div class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">Har Kuni Ochiq</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. ALPOMISH MUZ SAROYI HAQIDA BATAFSIL BO'LIM -->
+    <section id="about" class="py-20 bg-white dark:bg-ice-800/40 border-y border-slate-200 dark:border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal text-center max-w-3xl mx-auto mb-16">
+                <span class="text-gold-600 dark:text-gold-400 font-bold tracking-widest uppercase text-xs">Majmua Tarixi va Imkoniyatlari</span>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold mt-2 text-slate-900 dark:text-white">Alpomish Muz Saroyi Haqida</h2>
+                <p class="text-slate-600 dark:text-slate-300 mt-4 leading-relaxed">
+                    O'zbek xalqining buyuk qahramoni Alpomish sharafiga nomlangan ushbu muhtasham majmua Toshkent shahrining qoq markazida (Beruniy metro bekati yaqinida) joylashgan bo'lib, poytaxt aholisi va mehmonlarining eng sevimli qishki maskaniga aylangan.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="reveal feature-card p-8 rounded-3xl bg-slate-50 dark:bg-ice-900 border border-slate-200 dark:border-slate-800">
+                    <div class="w-14 h-14 rounded-2xl bg-sky-500/10 text-sky-500 flex items-center justify-center text-3xl mb-6">🏟️</div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Xalqaro Standartdagi Arena</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                        Majmua 60x30 metr o'lchamdagi professional muz maydoniga ega. Maxsus muz tekislovchi (Zamboni) mashinalari har bir seansdan so'ng muz yuzasini oyna kabi silliq holatga keltiradi.
+                    </p>
+                </div>
+
+                <div class="reveal feature-card p-8 rounded-3xl bg-slate-50 dark:bg-ice-900 border border-slate-200 dark:border-slate-800">
+                    <div class="w-14 h-14 rounded-2xl bg-gold-500/10 text-gold-500 flex items-center justify-center text-3xl mb-6">🎅</div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Yangi Yil Shou Dasturlari</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                        Dekabr va Yanvar oylarida saroy markazida 12 metrlik bezatilgan Yangi Yil archasi o'rnatiladi. Kechki seanslarda Qorbobo, Qorqiz va DJ ishtirokida lazerli muz diskotekalari o'tkaziladi.
+                    </p>
+                </div>
+
+                <div class="reveal feature-card p-8 rounded-3xl bg-slate-50 dark:bg-ice-900 border border-slate-200 dark:border-slate-800">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-3xl mb-6">🐧</div>
+                    <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Barcha Yoshdagilar Uchun</h3>
+                    <p class="text-slate-600 dark:text-slate-400 text-sm leading-relaxed">
+                        Ilk bor konkida uchayotgan bolalar va kattalar uchun maxsus "Pingvin" yordamchi tayanchlari hamda tajribali murabbiylar xizmati mavjud. Shuningdek, xokkey va figurali uchish to'garaklari faoliyat yuritadi.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Manzil va Seanslar jadvali -->
+            <div id="schedule" class="reveal mt-12 p-8 rounded-3xl bg-gradient-to-r from-ice-800 to-slate-900 text-white border border-gold-500/30 shadow-xl">
+                <div class="grid lg:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <span class="px-3 py-1 rounded-full bg-gold-500/20 text-gold-400 text-xs font-bold uppercase">Kunlik Seanslar Jadvali</span>
+                        <h3 class="font-display text-2xl sm:text-3xl font-bold mt-3 mb-4">Qachon Tashrif Buyurish Mumkin?</h3>
+                        <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Har bir uchish seansi <strong>1 soat (60 daqiqa)</strong> davom etadi. Seanslar orasida muzni tozalash uchun 30 daqiqa texnik tanaffus bo'ladi.
+                        </p>
+                        <div class="flex items-center gap-3 text-sm text-gold-400">
+                            <span>📍</span>
+                            <span>Manzil: Toshkent shahri, Olmazor tumani, Beruniy ko'chasi, 41-uy ("Beruniy" metrosi yonida)</span>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center">
+                        <div class="session-slot p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10">
+                            <div class="text-xs text-sky-300">1-Seans</div>
+                            <div class="font-bold text-base mt-1">10:30 – 11:30</div>
+                        </div>
+                        <div class="session-slot p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10">
+                            <div class="text-xs text-sky-300">2-Seans</div>
+                            <div class="font-bold text-base mt-1">12:00 – 13:00</div>
+                        </div>
+                        <div class="session-slot p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10">
+                            <div class="text-xs text-sky-300">3-Seans</div>
+                            <div class="font-bold text-base mt-1">14:00 – 15:00</div>
+                        </div>
+                        <div class="session-slot p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/10">
+                            <div class="text-xs text-sky-300">4-Seans</div>
+                            <div class="font-bold text-base mt-1">16:00 – 17:00</div>
+                        </div>
+                        <div class="session-slot p-3.5 rounded-2xl bg-gold-500/20 border border-gold-400/40">
+                            <div class="text-xs text-gold-300">🎄 Shou Seans</div>
+                            <div class="font-bold text-base mt-1">18:30 – 19:30</div>
+                        </div>
+                        <div class="session-slot p-3.5 rounded-2xl bg-gold-500/20 border border-gold-400/40">
+                            <div class="text-xs text-gold-300">✨ Tungi Muz</div>
+                            <div class="font-bold text-base mt-1">20:30 – 21:30</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 3. ONLAYN CHIPTA SOTIB OLISH BO'LIMI -->
+    <section id="tickets" class="py-20">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal text-center max-w-2xl mx-auto mb-14">
+                <span class="text-sky-600 dark:text-sky-400 font-bold tracking-widest uppercase text-xs">Navbatsiz Kirish</span>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold mt-2 text-slate-900 dark:text-white">Onlayn Bilet Sotib Olish</h2>
+                <p class="text-slate-600 dark:text-slate-300 mt-3 text-sm sm:text-base">
+                    Barcha chiptalar narxiga <strong>1 soatlik konki ijarasi</strong> va maxsus bir martalik paypoq kiritilgan.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8 items-start">
+                <div class="lg:col-span-2 space-y-5">
+                    <!-- Bolalar chiptasi -->
+                    <div class="reveal feature-card p-6 rounded-3xl bg-white dark:bg-ice-800 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl">🧒</span>
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Bolalar Chiptasi (12 yoshgacha)</h3>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">1 soat muzda uchish + bolalar konkisi + himoya shlemi</p>
+                            <div class="text-sky-600 dark:text-sky-400 font-bold text-lg mt-2">60 000 so'm</div>
+                        </div>
+                        <div class="flex items-center gap-3 self-end sm:self-center">
+                            <button onclick="updateTicket('child', -1)" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-ice-900 font-bold text-lg hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-90 transition cursor-pointer">−</button>
+                            <span id="qty-child" class="w-8 text-center font-bold text-lg">0</span>
+                            <button onclick="updateTicket('child', 1)" class="w-10 h-10 rounded-xl bg-sky-600 text-white font-bold text-lg hover:bg-sky-500 active:scale-90 transition cursor-pointer">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Kattalar chiptasi -->
+                    <div class="reveal feature-card p-6 rounded-3xl bg-white dark:bg-ice-800 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl">⛸️</span>
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Kattalar Chiptasi (12+ yosh)</h3>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1">1 soat muzda uchish + professional konki ijarasi</p>
+                            <div class="text-sky-600 dark:text-sky-400 font-bold text-lg mt-2">90 000 so'm</div>
+                        </div>
+                        <div class="flex items-center gap-3 self-end sm:self-center">
+                            <button onclick="updateTicket('adult', -1)" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-ice-900 font-bold text-lg hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-90 transition cursor-pointer">−</button>
+                            <span id="qty-adult" class="w-8 text-center font-bold text-lg">1</span>
+                            <button onclick="updateTicket('adult', 1)" class="w-10 h-10 rounded-xl bg-sky-600 text-white font-bold text-lg hover:bg-sky-500 active:scale-90 transition cursor-pointer">+</button>
+                        </div>
+                    </div>
+
+                    <!-- VIP Yangi Yil Paketi -->
+                    <div class="reveal feature-card p-6 rounded-3xl bg-gradient-to-r from-amber-500/10 to-yellow-500/5 dark:from-gold-500/15 dark:to-ice-800 border-2 border-gold-500/50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-md">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-2xl">👑</span>
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-gold-400">VIP Yangi Yil Paketi</h3>
+                            </div>
+                            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1">1 soat uchish + VIP kiyinish xonasi + Issiq shokolad va Yangi Yil sovg'asi</p>
+                            <div class="text-gold-600 dark:text-gold-400 font-bold text-lg mt-2">150 000 so'm</div>
+                        </div>
+                        <div class="flex items-center gap-3 self-end sm:self-center">
+                            <button onclick="updateTicket('vip', -1)" class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-ice-900 font-bold text-lg hover:bg-slate-200 dark:hover:bg-slate-700 active:scale-90 transition cursor-pointer">−</button>
+                            <span id="qty-vip" class="w-8 text-center font-bold text-lg">0</span>
+                            <button onclick="updateTicket('vip', 1)" class="w-10 h-10 rounded-xl bg-gold-500 text-slate-950 font-bold text-lg hover:bg-gold-400 active:scale-90 transition cursor-pointer">+</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Buyurtma xulosasi -->
+                <div class="reveal p-7 rounded-3xl bg-white dark:bg-ice-800 border border-slate-200 dark:border-slate-700 shadow-xl sticky top-28">
+                    <h3 class="font-display text-xl font-bold border-b border-slate-200 dark:border-slate-700 pb-4 mb-5">Sizning Buyurtmangiz</h3>
+
+                    <div class="space-y-3 mb-5">
+                        <label class="block text-xs font-semibold uppercase text-slate-500">Tashrif sanasi</label>
+                        <input type="date" id="visit-date" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-ice-900 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:border-sky-500">
+
+                        <label class="block text-xs font-semibold uppercase text-slate-500 pt-2">Seans vaqti</label>
+                        <select id="visit-time" class="w-full px-4 py-2.5 rounded-xl bg-slate-50 dark:bg-ice-900 border border-slate-200 dark:border-slate-700 text-sm focus:outline-none focus:border-sky-500">
+                            <option>12:00 – 13:00 (Kunduzgi)</option>
+                            <option>16:00 – 17:00 (Kechki)</option>
+                            <option selected>18:30 – 19:30 (🎄 Yangi Yil Shou)</option>
+                            <option>20:30 – 21:30 (✨ Tungi Muz)</option>
+                        </select>
+                    </div>
+
+                    <div class="border-t border-slate-200 dark:border-slate-700 pt-4 mb-6">
+                        <div class="flex justify-between text-sm text-slate-500 mb-2">
+                            <span>Jami chiptalar:</span>
+                            <span id="total-count" class="font-bold text-slate-900 dark:text-white">1 dona</span>
+                        </div>
+                        <div class="flex justify-between items-center text-lg font-bold">
+                            <span>Umumiy summa:</span>
+                            <span id="total-price" class="text-sky-600 dark:text-gold-400 text-xl">90 000 so'm</span>
+                        </div>
+                    </div>
+
+                    <button onclick="buyTickets()" class="shimmer-btn w-full py-4 rounded-2xl bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white font-bold shadow-lg shadow-sky-600/25 transition cursor-pointer">
+                        Chiptani Rasmiylashtirish ❄️
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. RASMIY HUJJAT KO'RINISHIDAGI KONKI UCHISH QOIDALARI -->
+    <section id="rules" class="py-20 bg-slate-100/80 dark:bg-ice-800/30 border-t border-slate-200 dark:border-slate-800">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="reveal text-center mb-10">
+                <span class="text-gold-600 dark:text-gold-400 font-bold tracking-widest uppercase text-xs">Xavfsizlik va Tartib</span>
+                <h2 class="font-display text-3xl sm:text-4xl font-bold mt-2 text-slate-900 dark:text-white">Konki Uchish Qoidalari Hujjati</h2>
+                <p class="text-slate-600 dark:text-slate-300 mt-2 text-sm">Muz maydoniga chiqishdan avval ushbu rasmiy yo'riqnomani o'qing va elektron shaklda to'ldiring.</p>
+            </div>
+
+            <div class="reveal official-paper relative bg-[#FFFDF7] dark:bg-[#111D33] text-slate-800 dark:text-slate-100 rounded-2xl p-6 sm:p-12 shadow-2xl border-4 border-double border-gold-500/70">
+                <div class="flex justify-between items-start border-b-2 border-gold-500/40 pb-6 mb-8">
+                    <div>
+                        <div class="text-xs font-bold tracking-widest uppercase text-gold-600 dark:text-gold-400">O'zbekiston Respublikasi • Toshkent</div>
+                        <h3 class="font-display text-xl sm:text-2xl font-extrabold mt-1">ALPOMISH MUZ SAROYI MA'MURIYATI</h3>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Hujjat № 2026/NY-01 • Yangi Yil Mavsumi Xavfsizlik Deklaratsiyasi</p>
+                    </div>
+                    <div class="text-right hidden sm:block">
+                        <div class="inline-block px-3 py-1.5 border-2 border-rose-500/70 text-rose-600 dark:text-rose-400 font-bold text-xs uppercase rounded rotate-3">
+                            🎄 TASDIQLANGAN • 2026
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4 text-sm sm:text-base leading-relaxed mb-8">
+                    <h4 class="font-bold text-base uppercase tracking-wide text-sky-700 dark:text-gold-400">I. Muz Maydonida Harakatlanish Qoidalari:</h4>
+                    <ol class="list-decimal pl-5 space-y-2.5 text-slate-700 dark:text-slate-300">
+                        <li>Muz maydonida harakatlanish faqat <strong>soat strelkasiga qarshi yo'nalishda</strong> amalga oshiriladi.</li>
+                        <li>Muz ustiga oziq-ovqat, ichimliklar, shisha idishlar hamda o'tkir buyumlar bilan chiqish qat'iyan man etiladi.</li>
+                        <li>7 yoshgacha bo'lgan bolalar muz maydonida faqat ota-onalari yoki katta yoshli hamroh kuzatuvida uchishlari shart.</li>
+                        <li>Yiqilgan holatda tezda qo'llarni yig'ib, muz ustida uzoq o'tirmasdan o'rindan turish lozim.</li>
+                        <li>Muz tekislash mashinasi (Zamboni) maydonga chiqqan vaqtda barcha tashrif buyuruvchilar zudlik bilan maydonni tark etishlari kerak.</li>
+                        <li>Ijaraga olingan konkilarga ehtiyotkorlik bilan munosabatda bo'ling; rezina yo'lakchalardan tashqarida konki tig'ida yurish taqiqlanadi.</li>
+                    </ol>
+                </div>
+
+                <form id="rules-form" onsubmit="submitRulesDocument(event)" class="border-t-2 border-dashed border-gold-500/40 pt-8 space-y-5">
+                    <h4 class="font-bold text-base uppercase tracking-wide text-sky-700 dark:text-gold-400">II. Tashrif Buyuruvchi Ma'lumotlari (To'ldirish majburiy):</h4>
+
+                    <div class="grid sm:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">F.I.Sh. (To'liq ismingiz)</label>
+                            <input type="text" id="visitor-name" required placeholder="Masalan: Karimov Sardor" class="w-full px-4 py-2.5 rounded-lg bg-white/80 dark:bg-ice-900 border-b-2 border-slate-300 dark:border-slate-600 focus:border-gold-500 focus:outline-none text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Konki O'lchami (Razmer)</label>
+                            <select id="skate-size" class="w-full px-4 py-2.5 rounded-lg bg-white/80 dark:bg-ice-900 border-b-2 border-slate-300 dark:border-slate-600 focus:border-gold-500 focus:outline-none text-sm">
+                                <option>28 – 31 (Bolalar)</option>
+                                <option>32 – 35 (O'smirlar)</option>
+                                <option selected>36 – 39 (O'rta)</option>
+                                <option>40 – 43 (Kattalar)</option>
+                                <option>44 – 46 (Katta o'lcham)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="grid sm:grid-cols-2 gap-5 items-end">
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-500 mb-1.5">Elektron Imzo (Ismingiz bosh harflari)</label>
+                            <input type="text" id="visitor-sign" required placeholder="K.S." class="w-full px-4 py-2.5 rounded-lg bg-white/80 dark:bg-ice-900 border-b-2 border-slate-300 dark:border-slate-600 focus:border-gold-500 focus:outline-none font-display italic text-base">
+                        </div>
+                        <div class="flex items-center gap-2.5 pb-2">
+                            <input type="checkbox" id="agree-check" required class="w-5 h-5 accent-gold-500 rounded cursor-pointer">
+                            <label for="agree-check" class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 cursor-pointer">
+                                Yuqoridagi barcha xavfsizlik qoidalari bilan tanishdim va roziman.
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div id="doc-status" class="text-xs font-semibold text-amber-600 dark:text-amber-400">
+                            ⏳ Holat: Hujjat hali tasdiqlanmagan
+                        </div>
+                        <button type="submit" class="shimmer-btn w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-gold-600 to-amber-500 hover:from-gold-500 hover:to-amber-400 text-slate-950 font-bold text-sm shadow-lg transition cursor-pointer">
+                            ✍️ Hujjatni Tasdiqlash va Muhrlash
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Rasmiy Muhr -->
+                <div id="official-stamp" class="hidden mt-6 p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/40 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <span class="text-3xl">✅</span>
+                        <div>
+                            <div class="font-bold text-emerald-700 dark:text-emerald-400 text-sm">Hujjat Elektron Tarzda Qabul Qilindi!</div>
+                            <div id="stamp-details" class="text-xs text-slate-600 dark:text-slate-300"></div>
+                        </div>
+                    </div>
+                    <div class="stamp-badge w-16 h-16 rounded-full border-2 border-emerald-600 dark:border-emerald-400 flex items-center justify-center text-center text-[9px] font-bold text-emerald-700 dark:text-emerald-400">
+                        ALPOMISH<br>MUZ SAROYI<br>TASDIQLADI
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-900 text-slate-400 py-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-3">
+                <span class="text-2xl float-slow">❄️</span>
+                <div>
+                    <div class="font-display font-bold text-white">ALPOMISH MUZ SAROYI</div>
+                    <div class="text-xs">Toshkent shahri, O'zbekiston • Yangi Yil 2026</div>
+                </div>
+            </div>
+            <div class="text-xs text-center md:text-right">
+                <p>Ma'lumot markazi: +998 (71) 200-00-26</p>
+                <p class="mt-1">© 2026 Alpomish Ice Palace. Barcha huquqlar himoyalangan.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- YEGULIKLAR MENYUSI MODAL OYNASI -->
+    <div id="food-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
+        <div class="modal-pop bg-white dark:bg-ice-800 w-full max-w-2xl rounded-3xl border border-gold-500/40 shadow-2xl overflow-hidden">
+            <div class="p-6 bg-gradient-to-r from-ice-900 to-slate-800 text-white flex items-center justify-between border-b border-gold-500/30">
+                <div>
+                    <span class="text-xs text-gold-400 font-bold uppercase tracking-wider">🎄 Alpomish Winter Cafe</span>
+                    <h3 class="font-display text-xl sm:text-2xl font-bold mt-0.5">Yeguliklar va Issiq Ichimliklar</h3>
+                </div>
+                <button onclick="toggleFoodModal()" class="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-xl transition cursor-pointer">✕</button>
+            </div>
+
+            <div class="p-6 max-h-[70vh] overflow-y-auto space-y-6">
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-gold-400 mb-3">☕ Issiq Ichimliklar</h4>
+                    <div class="space-y-3">
+                        <div class="menu-item flex justify-between items-center p-3.5 rounded-2xl bg-slate-50 dark:bg-ice-900/80 border border-slate-200 dark:border-slate-700">
+                            <div>
+                                <div class="font-bold text-sm sm:text-base">Belgiya Issiq Shokoladi (Zefir bilan)</div>
+                                <div class="text-xs text-slate-500">Muzdan keyin isinish uchun eng zo'r tanlov • 300 ml</div>
+                            </div>
+                            <span class="font-bold text-sky-600 dark:text-gold-400 whitespace-nowrap ml-3">28 000 so'm</span>
+                        </div>
+                        <div class="menu-item flex justify-between items-center p-3.5 rounded-2xl bg-slate-50 dark:bg-ice-900/80 border border-slate-200 dark:border-slate-700">
+                            <div>
+                                <div class="font-bold text-sm sm:text-base">Yangi Yil Dolchinli Kapuchino</div>
+                                <div class="text-xs text-slate-500">Tabiiy arabika qahvasi va dolchin • 250 ml</div>
+                            </div>
+                            <span class="font-bold text-sky-600 dark:text-gold-400 whitespace-nowrap ml-3">25 000 so'm</span>
+                        </div>
+                        <div class="menu-item flex justify-between items-center p-3.5 rounded-2xl bg-slate-50 dark:bg-ice-900/80 border border-slate-200 dark:border-slate-700">
+                            <div>
+                                <div class="font-bold text-sm sm:text-base">Mevali Choynak Choy (Malina va Yalpiz)</div>
+                                <div class="text-xs text-slate-500">2-3 kishi uchun katta choynak • 800 ml</div>
+                            </div>
+                            <span class="font-bold text-sky-600 dark:text-gold-400 whitespace-nowrap ml-3">32 000 so'm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-gold-400 mb-3">🍕 Tezpishar Yeguliklar</h4>
+                    <div class="space-y-3">
+                        <div class="menu-item flex justify-between items-center p-3.5 rounded-2xl bg-slate-50 dark:bg-ice-900/80 border border-slate-200 dark:border-slate-700">
+                            <div>
+                                <div class="font-bold text-sm sm:text-base">Pepperoni Pitsa (30 sm)</div>
+                                <div class="text-xs text-slate-500">Motsarella pishlog'i va dudlangan kolbasa</div>
+                            </div>
+                            <span class="font-bold text-sky-600 dark:text-gold-400 whitespace-nowrap ml-3">75 000 so'm</span>
+                        </div>
+                        <div class="menu-item flex justify-between items-center p-3.5 rounded-2xl bg-slate-50 dark:bg-ice-900/80 border border-slate-200 dark:border-slate-700">
+                            <div>
+                                <div class="font-bold text-sm sm:text-base">Alpomish Chizburger + Fri</div>
+                                <div class="text-xs text-slate-500">Mol go'shtli kotlet, chedder pishlog'i va sous</div>
+                            </div>
+                            <span class="font-bold text-sky-600 dark:text-gold-400 whitespace-nowrap ml-3">48 000 so'm</span>
+                        </div>
+                        <div class="menu-item flex justify-between items-center p-3.5 rounded-2xl bg-slate-50 dark:bg-ice-900/80 border border-slate-200 dark:border-slate-700">
+                            <div>
+                                <div class="font-bold text-sm sm:text-base">Xot-Dog Klassik</div>
+                                <div class="text-xs text-slate-500">Issiq sosiska, xantal va qarsildoq piyoz</div>
+                            </div>
+                            <span class="font-bold text-sky-600 dark:text-gold-400 whitespace-nowrap ml-3">24 000 so'm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-sky-600 dark:text-gold-400 mb-3">🧇 Shirinliklar</h4>
+                    <div class="space-y-3">
+                        <div class="menu-item flex justify-between items-center p-3.5 rounded-2xl bg-slate-50 dark:bg-ice-900/80 border border-slate-200 dark:border-slate-700">
+                            <div>
+                                <div class="font-bold text-sm sm:text-base">Belgiya Vaflisi (Shokolad va Bananli)</div>
+                                <div class="text-xs text-slate-500">Issiq va yumshoq desert</div>
+                            </div>
+                            <span class="font-bold text-sky-600 dark:text-gold-400 whitespace-nowrap ml-3">35 000 so'm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-4 bg-slate-50 dark:bg-ice-900 border-t border-slate-200 dark:border-slate-700 text-center">
+                <button onclick="toggleFoodModal()" class="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold text-sm transition cursor-pointer">
+                    Menyuni Yopish
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHIPTA TASDIQLASH MODAL OYNASI -->
+    <div id="ticket-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-slate-950/75 backdrop-blur-sm">
+        <div class="modal-pop bg-white dark:bg-ice-800 w-full max-w-md rounded-3xl border-2 border-gold-500 p-6 text-center shadow-2xl">
+            <div class="text-4xl mb-2 float-slow">🎟️</div>
+            <h3 class="font-display text-2xl font-bold text-slate-900 dark:text-white">Elektron Chipta Tayyor!</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Kassada ushbu kodni ko'rsating</p>
+
+            <div class="my-5 p-4 rounded-2xl bg-slate-100 dark:bg-ice-900 border border-dashed border-gold-500 text-left text-sm space-y-2">
+                <div class="flex justify-between"><span class="text-slate-500">Sana:</span> <span id="modal-date" class="font-bold"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500">Seans:</span> <span id="modal-time" class="font-bold"></span></div>
+                <div class="flex justify-between"><span class="text-slate-500">Chiptalar soni:</span> <span id="modal-qty" class="font-bold"></span></div>
+                <div class="flex justify-between border-t border-slate-300 dark:border-slate-700 pt-2"><span class="text-slate-500">To'lov summasi:</span> <span id="modal-sum" class="font-bold text-sky-600 dark:text-gold-400"></span></div>
+            </div>
+
+            <div class="font-mono text-lg font-bold tracking-widest py-2 px-4 bg-gold-500/15 text-gold-600 dark:text-gold-400 rounded-xl mb-5">
+                ALP-2026-8841
+            </div>
+
+            <button onclick="closeTicketModal()" class="w-full py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-bold transition cursor-pointer">
+                Tushunarli, Rahmat!
+            </button>
+        </div>
+    </div>
+
+    <!-- Alohida JavaScript fayli -->
+    <script src="script.js"></script>
+</body>
+</html>
